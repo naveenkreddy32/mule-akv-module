@@ -4,15 +4,15 @@
   "extensionModelLoaderDescriptor": {
     "id": "crafted",
     "attributes": {
-      "type": "com.my.company.custom.provider.api.CustomConfigurationPropertiesExtensionLoadingDelegate"
+      "type": "com.pn.api.AzureVaultConfigurationPropertiesExtensionLoadingDelegate"
     }
   },
-  "name": "custom-properties-provider",
+  "name": "azure-custom-properties-provider",
   "classLoaderModelLoaderDescriptor": {
     "id": "mule",
     "attributes": {
       "exportedPackages": [
-        "com.my.company.custom.provider.api"
+        "com.pn.api"
       ],
       "exportedResources": [
         "META-INF/services/org.mule.runtime.config.api.dsl.model.properties.ConfigurationPropertiesProviderFactory"
