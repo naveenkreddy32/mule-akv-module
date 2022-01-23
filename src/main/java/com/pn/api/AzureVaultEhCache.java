@@ -11,16 +11,26 @@ import org.ehcache.config.builders.ResourcePoolsBuilder;
 public class AzureVaultEhCache {
 
 	Logger LOGGER = LogManager.getLogger(getClass());
+	
+	static CacheManager cacheManager;
+	
+	private static final int cacheLimit = 100;
 
-	public static Cache<String, String> buildInMemoryCache(String cacheName, Class<?> keyType, Class<?> valueType){
-        CacheManager cacheManager = CacheManagerBuilder.newCacheManagerBuilder()
+	protected static Cache buildInMemoryCache(String cacheName, Class<?> keyType, Class<?> valueType){
+        cacheManager = CacheManagerBuilder.newCacheManagerBuilder()
         .withCache(cacheName, CacheConfigurationBuilder.newCacheConfigurationBuilder(keyType, valueType,
-        ResourcePoolsBuilder.heap(100)))
+        ResourcePoolsBuilder.heap(cacheLimit)))
         .build();
 
         cacheManager.init();
         
-        return (Cache<String, String>) cacheManager.getCache(cacheName, keyType, valueType);
+        return getInMemoryCache(cacheName, keyType, valueType);
+        
+        }
+	
+	protected static Cache getInMemoryCache(String cacheName, Class<?> keyType, Class<?> valueType){
+        
+        return cacheManager.getCache(cacheName, keyType, valueType);
         
         }
 }

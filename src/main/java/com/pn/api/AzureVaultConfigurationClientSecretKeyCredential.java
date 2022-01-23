@@ -22,7 +22,7 @@ public class AzureVaultConfigurationClientSecretKeyCredential extends KeyVaultCr
 	private String applicationId;
 	private String applicationSecret;
 
-	Cache<String, String> accessTokenCache = AzureVaultEhCache.buildInMemoryCache("accessTokenCache", String.class, String.class);
+	Cache AKVCache = AzureVaultEhCache.buildInMemoryCache("AKVCache", String.class, String.class);
 
 	public AzureVaultConfigurationClientSecretKeyCredential(String applicationId, String applicationSecret) {
 		this.setApplicationId(applicationId);
@@ -52,16 +52,16 @@ public class AzureVaultConfigurationClientSecretKeyCredential extends KeyVaultCr
 
 		try {
 
-			if (!accessTokenCache.containsKey("accessToken")) {
+			if (!AKVCache.containsKey("accessToken")) {
 
 				accessToken = GetAccessToken(authorization, resource, applicationId, applicationSecret).getAccessToken();
-				accessTokenCache.put("accessToken", accessToken);
+				AKVCache.put("accessToken", accessToken);
 				
 				LOGGER.debug("AKV access token stored in cache");
 
 			} else {
 				
-				accessToken = accessTokenCache.get("accessToken").toString();
+				accessToken = AKVCache.get("accessToken").toString();
 				
 				LOGGER.debug("AKV access token retrived from cache");
 			}

@@ -8,6 +8,7 @@ import org.mule.runtime.config.api.dsl.model.properties.ConfigurationProperty;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.ehcache.Cache;
+import org.ehcache.CacheManager;
 
 import java.util.Map;
 import java.util.Optional;
@@ -29,9 +30,11 @@ public class AzureVaultConfigurationPropertiesProvider implements ConfigurationP
 	private KeyVaultClient azureKeyVaultClient;
 
 	private String vaultName;
+	
+	Cache AKVCache = AzureVaultEhCache.getInMemoryCache("AKVCache", String.class, String.class);
 
-	Cache<String, String> propertyCache = AzureVaultEhCache.buildInMemoryCache("propertyCache", String.class,
-			String.class);
+//	Cache<String, String> AKVCache = AzureVaultEhCache.buildInMemoryCache("propertyCache", String.class,
+//			String.class);
 
 	public AzureVaultConfigurationPropertiesProvider(KeyVaultClient azureKeyVaultClient, String vaultName) {
 		this.azureKeyVaultClient = azureKeyVaultClient;
@@ -88,9 +91,9 @@ public class AzureVaultConfigurationPropertiesProvider implements ConfigurationP
 		String secretValue = null;
 		try {
 
-			if (propertyCache.containsKey(key)) {
+			if (AKVCache.containsKey(key)) {
 
-				secretValue = propertyCache.get(key);
+				secretValue = AKVCache.get(key).toString();
 				LOGGER.debug("Found Key " + key + " in cache. Retrieved it");
 				
 			} else {
@@ -100,7 +103,7 @@ public class AzureVaultConfigurationPropertiesProvider implements ConfigurationP
 				if (secret != null) {
 					secretValue = secret.value();
 					
-					propertyCache.put(key, secretValue);
+					AKVCache.put(key, secretValue);
 					LOGGER.debug("Key " + key + " not found in Cache. Retrieved from AKV and stored in cache");
 
 				} else {
