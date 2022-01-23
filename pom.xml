@@ -6,7 +6,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.pn.api</groupId>
 	<artifactId>mule-akv-module</artifactId>
-	<version>1.0.26-SNAPSHOT</version>
+	<version>1.0.27-SNAPSHOT</version>
 	<packaging>mule-extension</packaging>
 	<name>Azure Custom Properties Provider Extension</name>
 
