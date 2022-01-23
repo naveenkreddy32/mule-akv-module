@@ -83,7 +83,7 @@ public class AzureVaultConfigurationPropertiesProviderFactory implements Configu
 		try {
 
 			applicationClientId = parameters1.getStringParameter("clientId");
-			LOGGER.debug("Azure Client ID " + applicationClientId);
+			LOGGER.trace("Azure Client ID " + applicationClientId);
 
 
 		} catch (Exception e) {
@@ -93,7 +93,7 @@ public class AzureVaultConfigurationPropertiesProviderFactory implements Configu
 		try {
 
 			applicationSecretKey = parameters1.getStringParameter("secretKey");
-			LOGGER.debug("Azure Secret  Key " + applicationSecretKey);
+			LOGGER.trace("Azure Secret  Key " + applicationSecretKey);
 			
 
 		} catch (Exception e) {
